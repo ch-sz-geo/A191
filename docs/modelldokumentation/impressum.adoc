@@ -4,12 +4,11 @@
 *Erstellung*
 [cols="1, 3"]
 |===
-| Erstelldatum | 2024-01-01
+| Erstelldatum | 2026-08-19
 | letzte Änderung | {docdate}
-| Themen-Nummer | Annn
+| Themen-Nummer | A191
 | ID nach kGeoiV | --- 
-| Beteiligte | Vorname Nachname, Fachexperte (<Kürzel>), Amt 1 + 
-Vorname Nachname, Modellierer (<Kürzel>), Amt für Geoinformation
+| Beteiligte | Marco Grünenfelder, Modellierer (mg), Amt für Geoinformation
 |===
 
 *referenzierte Dokumente*

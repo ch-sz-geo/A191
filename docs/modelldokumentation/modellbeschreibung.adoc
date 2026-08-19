@@ -1,6 +1,25 @@
-== [todo] Modellbeschreibung
+== Modellbeschreibung
 
-<Beschreibung einfügen>
+Das Modell beschreibt Aufzählungen, die in Geodatenmodellen genutzt werden. Mit der Einführung 
+dieses Modelles sollen folgende Ziele erreicht werden:
+
+* Zentrale Haltung und Erfassung von Aufzählungen
+* Wiederverwendbarkeit von Aufzählungen ermöglichen
+* Verhindern, das ein Modell verändert werden muss, wenn eine Aufzählung sich ändert.
+* Mehr Flexibilität bei Prozessen wie Erfassung, Publikation usw.
+
+Für die Benennung der Klassen hat man die abstrakten Begriffe Blatt und Knoten gewählt. Ein 
+Knoten kann beliebig viele Nachfolger aufweisen, ein Blatt besitzt keine Nachfolger. Knoten 
+sowie Blätter erben ihre Attribute von der Klasse Komponente. Die einzelnen Aufzählwerte stellen 
+ein Blatt dar.
+
+Einem Knoten können beliebig viele Instanzen der Klasse Modellkatalog zugewiesen werden. 
+Das ermöglicht, dass man die Knoten und Blätter eines bestimmten Modells zu exportieren.
+Jeder Modellkatalog muss einem Modell zugewiesen werden.
+
+Ein Blatt entspricht in diesem Fall einem Aufzählwert. Ein Knoten gruppiert die 
+Aufzählungswerte. Der Modellkatalog wird geführt, dass Knoten einer spezifischen Klasse 
+einem oder mehreren Modellen zugeordnet werden können. 
 
 ifdef::backend-pdf[]
 <<<

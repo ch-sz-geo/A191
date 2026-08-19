@@ -1,0 +1,86 @@
+INTERLIS 2.4;
+!!==============================================================================
+!!@ Title               = "Der Masterkatalog";
+!!@ shortDescription    = "Dieses Modell legt die Struktur sämtlicher Kataloge (Aufzähllisten) fest. Die Modellierung erfolgt auf der Grundlage des Composite-Patterns";
+!!@ technicalContact    = "mailto:geoportal@sz.ch";
+!!@ furtherInformation  = "https://ch-sz-geo.github.io/A191/docs/modelldokumentation.html";
+!!@ Themennummer        = "A191";
+!!@ iliCompilerVersion  = "ili2c-5.6.8-e6f7ab6dd5cdba29afc9b24866ecb98c057d82b2";
+!!------------------------------------------------------------------------------
+!!      Version     | wer | was
+!! Datum      | Nr  |     |
+!!------------------------------------------------------------------------------
+!! 2026-07-10 | 3.0 | mg  | - Überarbeitung (Aufteilung der Klasse Modellkatalog in zwei Klassen - Modell und Modellkatalog)
+!! 2021-12-30 | 2.1 | kep | - Attribut "Kennung" durch OID-Definition ersetzt
+!!                          - Umbenennung "SortNr" nach "SortierNr"
+!! 2021-07-01 | 2.0 | kep | - Erweiterung, damit gleiche Kataloge aus verschiedenen Modellen (oder Klassen) referenziert werden können
+!!                          - Unique-Constraint auf Klasse "Komponente" eingeführt
+!! 2021-05-28 | 1.0 | kep | Erstfassung
+!!==============================================================================
+MODEL SZ_Masterkatalog_V3 (de)
+  AT "http://models.geo.sz.ch"
+  VERSION "2026-07-10" =
+  IMPORTS UNQUALIFIED INTERLIS;
+
+  DOMAIN
+    BasketID = OID TEXT*255;
+
+!!------------------------------------------------------------------------------
+  TOPIC Kataloge =
+    BASKET OID AS BasketID;
+    OID AS UUIDOID;
+!!------------------------------------------------------------------------------
+    CLASS Komponente (ABSTRACT) =
+      erfasstVon    :  MANDATORY  TEXT*100;
+      erfasstAm     :  MANDATORY  XMLDateTime;
+      geaendertVon  :  MANDATORY  TEXT*100;
+      geaendertAm   :  MANDATORY  XMLDateTime;
+      Name          :  MANDATORY  TEXT*255;          !! für Menschen lesbarer Name
+      SortierNr     :  MANDATORY -999999 .. 999999;  !! bestimmt die Reihenfolge des Eintrags: tiefste Nr erscheint zu oberst
+      Bemerkung     :             TEXT*1000;
+    END Komponente;
+
+    CLASS Blatt EXTENDS Komponente =
+      Code  :  MANDATORY  TEXT*255;  !! Zeichenumfang gemäss Referenzhandbuch; nicht als "NAME", damit auch reine Zahlenwerte eingetragen werden können.
+    END Blatt;
+
+    CLASS Knoten EXTENDS Komponente =  !! im Design-Pattern als "Kompositum, composite" bezeichnet
+    END Knoten;
+
+    CLASS Modell =
+      erfasstVon    :  MANDATORY  TEXT*100;
+      erfasstAm     :  MANDATORY  XMLDateTime;
+      geaendertVon  :  MANDATORY  TEXT*100;
+      geaendertAm   :  MANDATORY  XMLDateTime;
+      Name          :  MANDATORY  NAME;      !! Zeichenumfang gemäss Referenzhandbuch; Modellname
+      Version       :  MANDATORY  TEXT*255;  !! Länge auf 255 Stellen beschränkt; Modellversion
+      UNIQUE Name, Version;
+    END Modell;
+
+    CLASS Modellkatalog =
+      erfasstVon    :  MANDATORY  TEXT*100;
+      erfasstAm     :  MANDATORY  XMLDateTime;
+      geaendertVon  :  MANDATORY  TEXT*100;
+      geaendertAm   :  MANDATORY  XMLDateTime;
+      Thema         :  MANDATORY  NAME;  !! Zeichenumfang gemäss Referenzhandbuch; INTERLIS-Topic
+      Klasse        :  MANDATORY  NAME;  !! Zeichenumfang gemäss Referenzhandbuch; Name der Klasse, in der die Katalogeinträge gehalten werden; INTERLIS-Class
+    END Modellkatalog;
+
+    ASSOCIATION Knoten_Komponente =
+      rKnoten      -<#>  {0..1}  Knoten;
+      rKomponente  --    {0..*}  Komponente;
+    END Knoten_Komponente;
+
+    ASSOCIATION Komponente_Modellkatalog =
+      rKnoten         --  {1}     Knoten;
+      rModellkatalog  --  {0..*}  Modellkatalog;
+    END Komponente_Modellkatalog;
+
+    ASSOCIATION Modell__Modellkatalog =
+      rModell         --  {1}     Modell;
+      rModellkatalog  --  {0..*}  Modellkatalog;
+    END Modell__Modellkatalog;
+
+  END Kataloge;
+
+END SZ_Masterkatalog_V3.

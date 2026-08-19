@@ -4,8 +4,6 @@ Dieses Dokument beschreibt das Thema:
  
 * *__Masterkatalog__.*
 
-__<weitere Beschreibungen>__
-
 Dies ist ein internes Thema.
 
 === rechtliche Grundlagen

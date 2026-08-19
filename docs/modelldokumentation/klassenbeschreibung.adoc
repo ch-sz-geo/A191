@@ -1,4 +1,4 @@
-== [todo] Klassenbeschreibung
+== Klassenbeschreibung
 Dieses Modell beinhaltet keine `+Stammdaten+`.
 
 

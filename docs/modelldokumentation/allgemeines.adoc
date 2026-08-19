@@ -2,7 +2,7 @@
 === [todo] Ziel und Zweck
 Dieses Dokument beschreibt den Geobasisdatensatz
  
-* *__<Themenname>__.*
+* *__Masterkatalog__.*
 
 __<weitere Beschreibungen>__
 
